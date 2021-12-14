@@ -13,7 +13,7 @@ function App() {
   const [serverOutput, setServerOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  function textIsValid(name) {
+  function inputIsValid(name) {
     return name && name !== "";
   }
 
@@ -36,7 +36,6 @@ function App() {
 
     if (formIsValid) {
       resetForm();
-      console.log("Form submitted");
       setIsLoading(true);
 
       await axios
@@ -47,22 +46,24 @@ function App() {
           password,
         })
         .then((response) => {
-          console.log(response);
+          console.log(response.data);
         })
         .catch(() => {
           setErrorMessage("Error uploading data");
         });
-      await axios
-        .get(`https://demo-api.now.sh/users`)
-        .then((response) => {
-          console.log(response);
-          setServerOutput(response.data);
-        })
-        .catch(() => {
-          setErrorMessage("Error fetching data");
-        });
 
-      setIsLoading(false);
+      await setTimeout(async () => {
+        await axios
+          .get(`https://demo-api.now.sh/users`)
+          .then((response) => {
+            console.log(response.data);
+            setServerOutput(response.data);
+          })
+          .catch(() => {
+            setErrorMessage("Error fetching data");
+          });
+        setIsLoading(false);
+      }, 4000);
     }
   }
 
@@ -70,11 +71,11 @@ function App() {
     setErrorMessage("");
     setFormIsValid(true);
 
-    if (!textIsValid(firstName)) {
+    if (!inputIsValid(firstName)) {
       setFormIsValid(false);
       setErrorMessage("First name is required");
     }
-    if (!textIsValid(lastName)) {
+    if (!inputIsValid(lastName)) {
       setFormIsValid(false);
       setErrorMessage("Last name is required");
     }
@@ -82,7 +83,7 @@ function App() {
       setFormIsValid(false);
       setErrorMessage("Password must meet the requirements");
     }
-    if (!textIsValid(email)) {
+    if (!inputIsValid(email)) {
       setFormIsValid(false);
       setErrorMessage("Email is required");
     }
