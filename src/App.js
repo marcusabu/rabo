@@ -13,8 +13,8 @@ function App() {
   const [serverOutput, setServerOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  function inputIsValid(name) {
-    return name && name !== "";
+  function inputIsValid(input) {
+    return input && input !== "";
   }
 
   function passwordIsValid(password) {
@@ -98,50 +98,50 @@ function App() {
               <div className="card-body">
                 <h1 className="card-title">Sign Up</h1>
                 <form onSubmit={(e) => handleSubmit(e)}>
-                  <div class="form-group">
-                    <label for="firstnameInput">First name</label>
+                  <div className="form-group">
+                    <label htmlFor="firstnameInput">First name</label>
                     <input
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="firstnameInput"
                       placeholder="First name"
                     />
                   </div>
-                  <div class="form-group">
-                    <label for="lastnameInput">Last name</label>
+                  <div className="form-group">
+                    <label htmlFor="lastnameInput">Last name</label>
                     <input
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="lastnameInput"
                       placeholder="Last name"
                     />
                   </div>
-                  <div class="form-group">
-                    <label for="emailInput">Email address</label>
+                  <div className="form-group">
+                    <label htmlFor="emailInput">Email address</label>
                     <input
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="emailInput"
                       placeholder="Enter email"
                     />
                   </div>
-                  <div class="form-group">
-                    <label for="passwordInput">Password</label>
+                  <div className="form-group">
+                    <label htmlFor="passwordInput">Password</label>
                     <input
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       type="password"
-                      class="form-control"
+                      className="form-control"
                       id="passwordInput"
                       placeholder="Password"
                     />
-                    <small id="passwordInput" class="form-text text-muted">
+                    <small id="passwordInput" className="form-text text-muted">
                       Requirements:
                       <ul>
                         <li>Should be a minimum of 8 characters</li>
@@ -151,16 +151,16 @@ function App() {
                     </small>
                   </div>
                   {errorMessage && formSubmitted && (
-                    <div class="alert alert-danger" role="alert">
+                    <div className="alert alert-danger" role="alert">
                       {errorMessage}
                     </div>
                   )}
-                  <button type="submit" class="btn btn-primary">
+                  <button type="submit" className="btn btn-primary">
                     Send
                   </button>
                 </form>
                 {isLoading && (
-                  <div class="spinner-border text-dark" role="status"></div>
+                  <div className="spinner-border text-dark" role="status"></div>
                 )}
                 {serverOutput && serverOutput !== "" && (
                   <>
