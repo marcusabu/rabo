@@ -91,6 +91,7 @@ function App() {
       setFormIsValid(false);
       setErrorMessage("Email is required");
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstName, lastName, email, password]);
 
   return (
