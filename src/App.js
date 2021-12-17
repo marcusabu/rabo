@@ -18,7 +18,13 @@ function App() {
   }
 
   function passwordIsValid(password) {
-    return password && password.length >= 8;
+    if (!password) return false;
+    if (password.length < 8) return false;
+    if (password === password.toLowerCase()) return false;
+    if (password === password.toUpperCase()) return false;
+    if (firstName !== "" && password.includes(firstName)) return false;
+    if (lastName !== "" && password.includes(lastName)) return false;
+    return true;
   }
 
   function resetForm() {
@@ -52,18 +58,16 @@ function App() {
           setErrorMessage("Error uploading data");
         });
 
-      await setTimeout(async () => {
-        await axios
-          .get(`https://demo-api.now.sh/users`)
-          .then((response) => {
-            console.log(response.data);
-            setServerOutput(response.data);
-          })
-          .catch(() => {
-            setErrorMessage("Error fetching data");
-          });
-        setIsLoading(false);
-      }, 4000);
+      await axios
+        .get("https://demo-api.now.sh/users")
+        .then((response) => {
+          console.log(response.data);
+          setServerOutput(response.data);
+        })
+        .catch(() => {
+          setErrorMessage("Error fetching data");
+        });
+      setIsLoading(false);
     }
   }
 
@@ -151,11 +155,19 @@ function App() {
                     </small>
                   </div>
                   {errorMessage && formSubmitted && (
-                    <div className="alert alert-danger" role="alert">
+                    <div
+                      data-testid="form-error"
+                      className="alert alert-danger"
+                      role="alert"
+                    >
                       {errorMessage}
                     </div>
                   )}
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    data-testid="submit-btn"
+                    type="submit"
+                    className="btn btn-primary"
+                  >
                     Send
                   </button>
                 </form>
@@ -163,10 +175,10 @@ function App() {
                   <div className="spinner-border text-dark" role="status"></div>
                 )}
                 {serverOutput && serverOutput !== "" && (
-                  <>
+                  <div data-testid="server-output">
                     <h2>Server output</h2>
                     <code>{JSON.stringify(serverOutput)}</code>
-                  </>
+                  </div>
                 )}
               </div>
             </div>
