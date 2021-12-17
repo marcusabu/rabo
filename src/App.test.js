@@ -68,19 +68,16 @@ describe("App", () => {
     fireEvent.change(firstNameInput, { target: { value: "firstName" } });
     fireEvent.change(lastNameInput, { target: { value: "lastName" } });
     fireEvent.change(emailInput, { target: { value: "email" } });
-    fireEvent.change(passwordInput, { target: { value: "password" } });
+    fireEvent.change(passwordInput, { target: { value: "Password123" } });
 
-    await act(async () => {
-      fireEvent.click(button);
-    });
-
-    await act(() => screen.findByTestId("server-output"));
+    await fireEvent.click(button);
+    await screen.findByTestId("server-output");
 
     expect(axios.post).toHaveBeenCalledWith("https://demo-api.now.sh/users", {
       firstName: "firstName",
       lastName: "lastName",
       email: "email",
-      password: "password",
+      password: "Password123",
     });
     expect(axios.get).toHaveBeenCalledWith("https://demo-api.now.sh/users");
 
