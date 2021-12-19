@@ -58,15 +58,17 @@ function App() {
           setErrorMessage("Error uploading data");
         });
 
-      await axios
-        .get("https://demo-api.now.sh/users")
-        .then((response) => {
-          console.log(response.data);
-          setServerOutput(response.data);
-        })
-        .catch(() => {
-          setErrorMessage("Error fetching data");
-        });
+      await setTimeout(async () => {
+        await axios
+          .get("https://demo-api.now.sh/users")
+          .then((response) => {
+            console.log(response.data);
+            setServerOutput(response.data);
+          })
+          .catch(() => {
+            setErrorMessage("Error fetching data");
+          });
+      }, 4000);
       setIsLoading(false);
     }
   }

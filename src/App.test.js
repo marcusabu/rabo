@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  render,
-  fireEvent,
-  waitFor,
-  screen,
-  act,
-} from "@testing-library/react";
+import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import App from "./App";
 import axios from "axios";
@@ -21,16 +15,13 @@ describe("App", () => {
     expect(linkElement).toBeInTheDocument();
   });
 
-  describe("form validation", () => {
-    it("validates the form", () => {
-      render(<App />);
+  // TODO: test for other input fields
+  it("validates the form", () => {
+    render(<App />);
 
-      expect(screen.queryByTestId("form-error")).not.toBeInTheDocument();
-      fireEvent.click(screen.getByText("Send"));
-      expect(screen.getByTestId("form-error")).toBeInTheDocument();
-    });
-
-    // TODO: test for other input fields
+    expect(screen.queryByTestId("form-error")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText("Send"));
+    expect(screen.getByTestId("form-error")).toBeInTheDocument();
   });
 
   it("submits the form", async () => {
@@ -70,8 +61,11 @@ describe("App", () => {
     fireEvent.change(emailInput, { target: { value: "email" } });
     fireEvent.change(passwordInput, { target: { value: "Password123" } });
 
-    await fireEvent.click(button);
-    await screen.findByTestId("server-output");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      screen.queryByTestId("server-output");
+    });
 
     expect(axios.post).toHaveBeenCalledWith("https://demo-api.now.sh/users", {
       firstName: "firstName",
@@ -79,7 +73,13 @@ describe("App", () => {
       email: "email",
       password: "Password123",
     });
-    expect(axios.get).toHaveBeenCalledWith("https://demo-api.now.sh/users");
+
+    await waitFor(
+      () => {
+        expect(axios.get).toHaveBeenCalledWith("https://demo-api.now.sh/users");
+      },
+      { timeout: 8000 }
+    );
 
     expect(screen.queryByTestId("form-error")).not.toBeInTheDocument();
     expect(screen.getByTestId("server-output")).toBeInTheDocument();
