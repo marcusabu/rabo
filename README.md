@@ -1,4 +1,5 @@
 # Marcus Abukari
+[![CI](https://github.com/marcusabu/rabo/actions/workflows/main.yml/badge.svg)](https://github.com/marcusabu/rabo/actions/workflows/main.yml)
 
 ## Available Scripts
 
